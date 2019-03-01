@@ -22,5 +22,28 @@ class MSA:
             print("Index out of bounds. There are " + str(self.length) + " columns.")
 
     def LoadMatrix(self, filename):
-        self.matrix = np.loadtxt(filename,dtype=int)
-        df = pd.read_csv('BLOSUM62.csv', sep=";", header=0, index_col=0)
+        self.matrix = pd.read_csv(filename, sep=";", header=0, index_col=0)
+
+    def SumOfPairsCol(self, col):
+        if col < len(self.alignment[0]):
+            score = 0
+            column = self.alignment[:,col]
+            for i in range(0, len(column)):
+                for j in range(i+1, len(column)):
+                    score += self.matrix.loc[column[i], column[j]]
+            #print(score)
+            return score
+        else:
+            print("Column index out of range.")
+
+    def SumOfPairsAl(self):
+        score = 0
+        for i in range(len(self.alignment[0])):
+            score += self.SumOfPairsCol(i)
+        print(score)
+        return score
+
+msa = MSA("MSAsimple.txt")
+msa.LoadMatrix("BLOSUM62_.csv")
+print(msa.SumOfPairsCol(50))
+msa.SumOfPairsAl()
