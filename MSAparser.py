@@ -15,6 +15,13 @@ class MSA:
         else:
             print("Index out of bounds. There are "+str(self.num)+" sequences.")
 
+    def GetAl(self):
+        return self.alignment
+    def GetNumOfSeq(self):
+        return self.num
+    def GetLenOfAl(self):
+        return self.length
+
     def GetColumn(self, id):
         if id < self.length:
             return self.alignment[:, id]
