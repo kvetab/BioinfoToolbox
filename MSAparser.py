@@ -52,5 +52,6 @@ class MSA:
 
 msa = MSA("MSAsimple.txt")
 msa.LoadMatrix("BLOSUM62_.csv")
-print(msa.SumOfPairsCol(50))
+sop = msa.SumOfPairsCol(50)
+print(sop)
 msa.SumOfPairsAl()

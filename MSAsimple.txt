@@ -1,4 +1,4 @@
-CLUSTAL multiple sequence alignment by MUSCLE (3.8)
+CLUSTAL multiple sequence alignment by MUSCLE (3.8) - changed
 
 
 UniRef90_C0PUM1             -MYD----------------------------------------------MEE-------
