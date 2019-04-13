@@ -50,8 +50,9 @@ class MSA:
         print(score)
         return score
 
-msa = MSA("MSAsimple.txt")
-msa.LoadMatrix("BLOSUM62_.csv")
-sop = msa.SumOfPairsCol(50)
-print(sop)
-msa.SumOfPairsAl()
+if __name__ == "__main__":
+    msa = MSA("MSAsimple.txt")
+    msa.LoadMatrix("BLOSUM62_.csv")
+    sop = msa.SumOfPairsCol(50)
+    print(sop)
+    msa.SumOfPairsAl()

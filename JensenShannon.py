@@ -70,11 +70,10 @@ def CalcDistr(parser, weights):
     return distributions
 
 
-
-reader = MSAparser.MSA("MSAsimple.txt")
-weights = CalcWeights(reader)
-dist = CalcDistr(reader, weights)
-res = JSD(dist[:,2],q)
-print(res)
-
+if __name__ == "__main__":
+    reader = MSAparser.MSA("MSAsimple.txt")
+    weights = CalcWeights(reader)
+    dist = CalcDistr(reader, weights)
+    res = JSD(dist[:,51],q)
+    print(res)
 
