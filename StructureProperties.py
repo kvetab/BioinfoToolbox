@@ -119,10 +119,11 @@ class StructAnalysis:
 
 """
 
-parser = PDBfile.PDBparser("5y41.pdb")
-mod = parser.GetModel(0)
-structure = StructAnalysis(mod, 12)
-print(structure.PortionPolar(2))
-#ratio = structure.GetCNs()
-#print(ratio)
-#structure.GetHistogram()
+if __name__ == "__main__":
+    parser = PDBfile.PDBparser("5y41.pdb")
+    mod = parser.GetModel(0)
+    structure = StructAnalysis(mod, 12)
+    print(structure.PortionPolar(2))
+    #ratio = structure.GetCNs()
+    #print(ratio)
+    #structure.GetHistogram()

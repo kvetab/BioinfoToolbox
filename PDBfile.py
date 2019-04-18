@@ -12,11 +12,15 @@ class PDBparser:
         else:
             print("Index out of range. There are " + str(self.nr_models) + " models.")
 
-    #returns the chain at position id in given model
+    #returns the chain with given id in given model
+    def GetChainById(self, mod, id):
+        return mod[id]
+
     def GetChain(self, mod, id):
-        nr = len(mod)
+        chain_list = PDB.Selection.unfold_entities(mod, "C")
+        nr = len(chain_list)
         if id < nr:
-            return mod[id]
+            return chain_list[id]
         else:
             print("Index out of range. This model has " + str(nr) + " chains.")
 
@@ -30,6 +34,16 @@ class PDBparser:
             return reslist[pos]
         else:
             print("Index out of range. This chain has " + str(nr) + " residues.")
+
+# returns a list of non-amino acid residues
+    def GetHetResidues(self, modnum):
+        residues = self.GetModel(modnum).get_residues()
+        hetlist = []
+        for residue in residues:
+            residue_id = residue.get_id()
+            hetfield = residue_id[0]
+            if hetfield[0] == "H":
+                hetlist.append(residue)
 
     def GetAtomByPos(self, res, pos):
         nr = len(res)
@@ -64,6 +78,7 @@ class PDBparser:
                     n += len(res)
         return n
 
+# returns the maximal width of the structure
     def GetWidth(self):
         max = 0
         atoms = self.struct.get_atoms()
@@ -73,6 +88,7 @@ class PDBparser:
                     max = atm - atom
         return max
 
+# returns all atoms (in a list) within given distance from a certain ligand (atom)
     def GetAtmsInRadius(self, hetatm, radius):
         list = []
         atoms = self.struct.get_atoms()
@@ -81,9 +97,16 @@ class PDBparser:
                 list.append(atom)
         return  list
 
+# returns all residues (in a list) within given distance from a certain ligand (atom)
     def GetResInRadius(self, hetatm, radius):
         list = self.GetAtmsInRadius(self, hetatm, radius)
         reslist = PDB.Selection.unfold_entities(list, "R")
         return reslist
+
+if __name__ == "__main__":
+    parser = PDBparser("5y41.pdb")
+    mod = parser.GetModel(0)
+    chain = parser.GetChain(mod, 0)
+    res = parser.GetResById(chain, 3)
 
 

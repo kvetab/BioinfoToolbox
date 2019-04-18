@@ -1,5 +1,4 @@
 from Bio import AlignIO
-import numpy as np
 import pandas as pd
 
 class MSA:
