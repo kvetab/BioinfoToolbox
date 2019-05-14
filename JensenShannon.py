@@ -55,12 +55,12 @@ class JSD:
 
     def CalcWeights(self):
         #reader = MSAparser.MSA(msa)
-        alignment = reader.GetAl()
-        num = reader.num        #number of sequences in MSA
+        alignment = self.reader.GetAl()
+        num = self.reader.num        #number of sequences in MSA
         weightsk = np.zeros(num)
         count = 0
         for i in range(self.reader.length):      #length of each sequence
-            freq, gap = self.CalcColFreq(reader.GetColumn(i), num)
+            freq, gap = self.CalcColFreq(self.reader.GetColumn(i), num)
             weightsk += freq
             if not gap:
                 count += 1

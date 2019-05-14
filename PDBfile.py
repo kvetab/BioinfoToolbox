@@ -99,7 +99,7 @@ class PDBparser:
 
 # returns all residues (in a list) within given distance from a certain ligand (atom)
     def GetResInRadius(self, hetatm, radius):
-        list = self.GetAtmsInRadius(self, hetatm, radius)
+        list = self.GetAtmsInRadius(hetatm, radius)
         reslist = PDB.Selection.unfold_entities(list, "R")
         return reslist
 
@@ -107,6 +107,6 @@ if __name__ == "__main__":
     parser = PDBparser("5y41.pdb")
     mod = parser.GetModel(0)
     chain = parser.GetChain(mod, 0)
-    res = parser.GetResById(chain, 3)
+    res = parser.GetResByPos(chain, 3)
 
 
