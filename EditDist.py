@@ -5,6 +5,8 @@ class EditDist:
     def __init__(self, seq1, seq2):
         self.seq1 = seq1
         self.seq2 = seq2
+        self.m = None
+
     def CalcMin(self, i, j, m):
         res1 = m[i-1, j, 0] + 1
         res2 = m[i, j-1, 0] + 1
@@ -23,6 +25,7 @@ class EditDist:
             parenty = j-1
         return res, parentx, parenty
 
+# returns the edit distance of two sequences
     def GetDist(self):
         len1 = len(self.seq1)
         len2 = len(self.seq2)
@@ -35,20 +38,25 @@ class EditDist:
             i = k+1
             for l in range(len2):
                 j = l + 1
-                x, y, z = EditDist.CalcMin(self, i, j, m)
-                m[i,j,0] = x
-                m[i,j,1] = y
-                m[i, j, 2] = z
-        return  m[len1, len2, 1], m
+                res, x, y = EditDist.CalcMin(self, i, j, m)
+                m[i,j,0] = res
+                m[i,j,1] = x
+                m[i, j, 2] = y
+        self.m = m
+        return  m[len1, len2, 0]
 
-    #returns one of the optimal alignments
-    def GetAlignment(self, m, len1, len2):
+    # returns one of the optimal alignments
+    def GetAlignment(self):
+        if self.m == None:
+            self.GetDist()
+        len1 = len(self.seq1)
+        len2 = len(self.seq2)
         stack = []
         tup = (len1, len2)
         while tup != (0,0):
             stack.append(tup)
-            tup = (m[tup[0], tup[1], 1], m[tup[0], tup[1], 2])
-            #tup = m[tup[0], tup[1], 1]
+            tup = (self.m[tup[0], tup[1], 1], self.m[tup[0], tup[1], 2])
+            # tup = m[tup[0], tup[1], 1]
         lasti = 0
         lastj = 0
         al1 = ""
@@ -67,4 +75,13 @@ class EditDist:
                 al2 = al2 + "-"
             lastj = j
             lasti = i
+        # print(al1)
+        # print(al2)
         return al1, al2
+
+if __name__ == "__main__":
+    seq1 = "AACTGTCT"
+    seq2 = "ATCTGGCCT"
+    edit = EditDist(seq1, seq2)
+    #edit.GetAlignment()
+    print(edit.GetDist())

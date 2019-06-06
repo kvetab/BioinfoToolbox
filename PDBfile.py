@@ -6,16 +6,18 @@ class PDBparser:
         self.struct =parser.get_structure("structure", filename)
         self.nr_models = len(self.struct)
 
+# returns model by ID (order)
     def GetModel(self, id):
         if id < self.nr_models:
             return self.struct[id]
         else:
             print("Index out of range. There are " + str(self.nr_models) + " models.")
 
-    #returns the chain with given id in given model
+#returns the chain with given id in given model
     def GetChainById(self, mod, id):
         return mod[id]
 
+# returns chain of given moodel by its order
     def GetChain(self, mod, id):
         chain_list = PDB.Selection.unfold_entities(mod, "C")
         nr = len(chain_list)
@@ -24,9 +26,11 @@ class PDBparser:
         else:
             print("Index out of range. This model has " + str(nr) + " chains.")
 
+# Returns residue by it ID. If none are given, het and ins are blank.
     def GetResById(self, chain, id, het = " ", ins = " "):
         return chain[(het, id, ins)]
 
+# returns residue by its position in the chain
     def GetResByPos(self, chain, pos):
         nr = len(chain)
         if pos < nr:
@@ -57,19 +61,23 @@ class PDBparser:
 
     def GetNumOdChildren(self, ent):
         return len(ent)
+
     def GetNumOfMods(self):
         return  self.nr_models
+
     def GetNumOfChains(self):
         n = 0
         for mod in self.struct:
             n += len(mod)
         return n
+
     def GetNumOfResidues(self):
         n = 0
         for mod in self.struct:
             for chain in mod:
                 n += len(chain)
         return n
+
     def GetNumOfAtoms(self):
         n = 0
         for mod in self.struct:
