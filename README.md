@@ -19,5 +19,14 @@ The initialization function of PDBparser loads a .pdb file. The class contains f
 5) Processing multiple sequence alignment
 The initialization function of the MSA class loads a multiple sequence alignment from a file in clustal format. It contains functions to returs the number and length of sequences, a specific sequence or a specific column of the alignment. A scoring matrix can be loaded from a file in csv format (LoadMatrix). Then the sum of pairs score can be calculated for a specific column or for the whole alignment.
 
-Determinaion of conservation of a position in a sequence is based on the Jensen-Shannon divergence, steps taken from: 
+6) Conservation determination from multiple aligned sequences
+Tha class JSD is initialized by an MSAparser (see assignment 5), which already contains a loaded multiple sequence alignment. 
+Upon initialization, weights of sequences are calculated (CalcWeights) using methods described in Henikoff and Henikoff (1994). Next, distributions of residues in columns are determined (CalcDistr). For simplicity, a uniform background distribution is assumed. The function JSDivergence returns the conservation score of a given column of the multiple sequence alignment. Determinaion of conservation of a position in a sequence is based on the Jensen-Shannon divergence, steps taken from Capra and Singh (2007). Functions CalcColFreq and RelativeEntropy are used as intermediate steps in CalcWeights and JSDivergence, respectively.
+
+7) Computing structure-related properties
+The class StructAnalysis requires a model loaded by a PDBparser and a radius. It calculates the half sphere exposure for each residue. The function GetHSE returns the contact number and HSE beta up, which is supposed to be the best measure of exposure according to Hamelryck (2005). GetCNs then acquires these values for each residue and keeps counts of buried and exposed residues (based on arbitrary thresholds). The distribution can be plotted as a histogram by GetHistogram. PortionPolar returns either the proportion of amino acids in the core, that are polar, or the proportion of amino acids on the surface, that are polar, or the ratio of polar amino acids in the core vs. on the surface. The function GetDiam returns the greatest distance between atoms, as in assignment 4.
+
+References:
+Henikoff S, Henikoff J. Position-based sequence weights, J. Mol. Biol., 1994, vol. 243 (pg. 574-578)
 John A. Capra, Mona Singh; Predicting functionally important residues from sequence conservation, Bioinformatics, Volume 23, Issue 15, 1 August 2007, Pages 1875–1882, https://doi.org/10.1093/bioinformatics/btm270
+Hamelryck, Thomas. "An amino acid has two sides: a new 2D measure provides a different view of solvent exposure." Proteins: Structure, Function, and Bioinformatics 59.1 (2005): 38-48.
