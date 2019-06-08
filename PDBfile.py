@@ -48,6 +48,7 @@ class PDBparser:
             hetfield = residue_id[0]
             if hetfield[0] == "H":
                 hetlist.append(residue)
+        return hetlist
 
     def GetAtomByPos(self, res, pos):
         nr = len(res)
