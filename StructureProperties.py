@@ -2,6 +2,7 @@ import PDBfile
 from Bio import PDB
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 class StructAnalysis:
     def __init__(self, model, RAD):
@@ -18,8 +19,7 @@ class StructAnalysis:
                 polar = int(polar)
                 self.polarAAs[aa] = polar
 
-# what is a good measure of if a residue is buried or exposed?
-# HSE supposedly works, bu I could not find any threshold values.
+# HSE supposedly works as a measure of exposure, but I could not find any threshold values.
 # HSE beta Up is supposed to be the most informative according to Hamelryck (2005) -> used here
     def GetHSE(self, residue):
         CN = None
@@ -42,6 +42,7 @@ class StructAnalysis:
     def GetDiam(self, parser):
         return parser.GetWidth()
 
+# calculated HSE beta up and CN for each residue
     def GetCNs(self):
         residues = self.model.get_residues()
         buried = 0
@@ -63,20 +64,22 @@ class StructAnalysis:
         if buried > 0:
             ratio = exposed / buried
         else:
-            ratio = exposed
+            ratio = math.inf
         self.calculated = True
         return ratio
 
     def GetHistogram(self):
         if self.calculated == False:
             self.GetCNs()
-        arrc = np.array(self.cns)
-        arrb = np.array(self.bus)
-        histc = np.histogram(arrc)
+        arrc = np.array(self.cns)       # array of contact numbers
+        arrb = np.array(self.bus)       # array of beta up values
+        histc = np.histogram(arrc)      # histogram od CNs of all residues
         plt.hist(arrc)
+        plt.title('Histogram of CNs')
         plt.show()
-        histb = np.histogram(arrb)
+        histb = np.histogram(arrb)      # histogram of HSEbu values for all residues
         plt.hist(arrb)
+        plt.title('Histogram of beta up values')
         plt.show()
         return histb, histc
 
@@ -123,7 +126,7 @@ if __name__ == "__main__":
     parser = PDBfile.PDBparser("5y41.pdb")
     mod = parser.GetModel(0)
     structure = StructAnalysis(mod, 12)
-    print(structure.PortionPolar(2))
+    #print(structure.PortionPolar(2))
     #ratio = structure.GetCNs()
     #print(ratio)
-    #structure.GetHistogram()
+    structure.GetHistogram()
