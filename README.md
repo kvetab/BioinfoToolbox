@@ -24,9 +24,18 @@ Tha class JSD is initialized by an MSAparser (see assignment 5), which already c
 Upon initialization, weights of sequences are calculated (CalcWeights) using methods described in Henikoff and Henikoff (1994). Next, distributions of residues in columns are determined (CalcDistr). For simplicity, a uniform background distribution is assumed. The function JSDivergence returns the conservation score of a given column of the multiple sequence alignment. Determinaion of conservation of a position in a sequence is based on the Jensen-Shannon divergence, steps taken from Capra and Singh (2007). Functions CalcColFreq and RelativeEntropy are used as intermediate steps in CalcWeights and JSDivergence, respectively.
 
 7) Computing structure-related properties
-The class StructAnalysis requires a model loaded by a PDBparser and a radius. It calculates the half sphere exposure for each residue. The function GetHSE returns the contact number and HSE beta up, which is supposed to be the best measure of exposure according to Hamelryck (2005). GetCNs then acquires these values for each residue and keeps counts of buried and exposed residues (based on arbitrary thresholds). The distribution can be plotted as a histogram by GetHistogram. PortionPolar returns either the proportion of amino acids in the core, that are polar, or the proportion of amino acids on the surface, that are polar, or the ratio of polar amino acids in the core vs. on the surface. The function GetDiam returns the greatest distance between atoms, as in assignment 4.
+The class StructAnalysis requires a model loaded by a PDBparser and a radius. It calculates the half sphere exposure for each residue. The function GetHSE returns the contact number and HSE beta up, which is supposed to be the best measure of exposure according to Hamelryck (2005). GetCNs then acquires these values for each residue and keeps counts of buried and exposed residues (based on arbitrary thresholds - I did not find anywhere how to choose those). The distribution can be plotted as a histogram by GetHistogram. PortionPolar returns either the proportion of amino acids in the core, that are polar, or the proportion of amino acids on the surface, that are polar, or the ratio of polar amino acids in the core vs. on the surface. The function GetDiam returns the greatest distance between atoms, as in assignment 4.
+
+8) Combining structure and sequence
+The class StructAndSeq is initialized with a MSA file, a PDB file and a number, which determines which sequence in the alignment belongs to the structure. It is assumed, that the residues are in the same order in the sequence as in the structure - I expect this to be a problem in reality. A list of non-amino acid residues from the structure is obtained and their number is printed. Then the user inputs, which of these is the ligand. From that, a list of residues in a radius of 2.5 A from the ligand is obtained. The function LoadNewStruct can be used to replace the loaded files. CalcConsInActiveS calculates the conservation scores of the active site residues using the class from assignment 6. RecalculateResPositions is used there to match the residues of the active site to the positions in the sequence. GetRelCons calculates conservation scores for all the residues and then compares their average to the average from the active site.
+
+Some of the assumptions made in these assignments are not entirely realistic. 
+
 
 References:
+
 Henikoff S, Henikoff J. Position-based sequence weights, J. Mol. Biol., 1994, vol. 243 (pg. 574-578)
+
 John A. Capra, Mona Singh; Predicting functionally important residues from sequence conservation, Bioinformatics, Volume 23, Issue 15, 1 August 2007, Pages 1875–1882, https://doi.org/10.1093/bioinformatics/btm270
+
 Hamelryck, Thomas. "An amino acid has two sides: a new 2D measure provides a different view of solvent exposure." Proteins: Structure, Function, and Bioinformatics 59.1 (2005): 38-48.
